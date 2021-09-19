@@ -4,6 +4,8 @@ This component helps to run telegram actions with async
 
 ## Installation
 
+`composer install zafarjonovich/yii-telegram-action`
+
 `php yii migrate --migrationPath="@vendor/zafarjonovich/yii-telegram-action/src/migrations"`
 
 

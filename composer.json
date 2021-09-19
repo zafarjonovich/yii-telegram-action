@@ -1,5 +1,5 @@
 {
-  "name": "zafarjonovich/yii-telegram-queue",
+  "name": "zafarjonovich/yii-telegram-action",
   "description": "Yii telegram queue",
   "type": "library",
   "require": {
