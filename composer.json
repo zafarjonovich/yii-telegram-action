@@ -1,0 +1,14 @@
+{
+  "name": "zafarjonovich/yii-telegram-queue",
+  "description": "Yii telegram queue",
+  "type": "library",
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "zafarjonovich\\YiiTelegramAction\\": "src"
+    }
+  }
+}
