@@ -11,37 +11,39 @@ class Action
 {
     public $action;
 
-    /**
-     * @var YiiAction $controllerAction
-     */
-    public $controllerAction;
-
-    /**
-     * @var Actionable $handler
-     */
-    private $handler;
-
-    public function __construct(TelegramMessageAction $action,YiiAction &$controllerAction)
+    public function __construct(TelegramMessageAction $action)
     {
         $this->action = $action;
-        $this->controllerAction = $controllerAction;
-
-        /**
-         * @var Actionable $handler
-         */
-        $this->handler = \Yii::createObject([
-            'class' => $action->class,
-            'parent' => $this,
-        ]);
     }
 
-    public function run()
+    public function run($options = [])
     {
-        $result = $this->handler->run();
+        if($this->action->status == TelegramMessageAction::STATUS_WAITING) {
 
-        $this->action->status = TelegramMessageAction::STATUS_RUN;
-        $this->action->save();
+            $mainProperties = [
+                'class' => $this->action->class,
+                'parent' => $this,
+            ];
 
-        return $result;
+            $properties = array_merge(
+                $mainProperties,
+                $options,
+                $this->action->options
+            );
+
+            /**
+             * @var Actionable $handler
+             */
+            $handler = \Yii::createObject($properties);
+
+            $result = $handler->run();
+
+            $this->action->status = TelegramMessageAction::STATUS_RUN;
+            $this->action->save();
+
+            return $result;
+        }
+
+        return false;
     }
 }

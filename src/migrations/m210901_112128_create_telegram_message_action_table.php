@@ -18,6 +18,8 @@ class m210901_112128_create_telegram_message_action_table extends Migration
             'key' => $this->char(75),
             'options' => $this->json(),
             'status' => $this->smallInteger(),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime()
         ]);
     }
 

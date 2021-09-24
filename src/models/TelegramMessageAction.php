@@ -3,6 +3,7 @@
 namespace zafarjonovich\YiiTelegramAction\models;
 
 use Yii;
+use zafarjonovich\YiiTelegramAction\base\Action;
 
 /**
  * This is the model class for table "telegram_message_action".
@@ -12,6 +13,8 @@ use Yii;
  * @property string|null $key
  * @property string|null $options
  * @property int|null $status
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property TelegramMessageActionChild[] $telegramMessageActionChildren
  */
@@ -28,9 +31,18 @@ class TelegramMessageAction extends \yii\db\ActiveRecord
         $object->key = $key;
         $object->options = $options;
         $object->status = self::STATUS_WAITING;
-        $object->save();
+        $object->created_at = date('Y-m-d H:i:s');
+        $object->updated_at = date('Y-m-d H:i:s');
 
         return $object;
+    }
+    
+    public static function findWaitingAction($key)
+    {
+        return TelegramMessageAction::findOne([
+            'status' => TelegramMessageAction::STATUS_WAITING, 
+            'key' => $key
+        ]);
     }
 
     /**
@@ -63,5 +75,15 @@ class TelegramMessageAction extends \yii\db\ActiveRecord
     public function getTelegramMessageActionChildren()
     {
         return $this->hasMany(TelegramMessageActionChild::className(), ['parent_id' => 'id']);
+    }
+
+    public function run($options = [])
+    {
+        if(!$this->class)
+            throw new \Exception('Not instanced');
+
+        $handler = new Action($this);
+
+        return $handler->run($options);
     }
 }

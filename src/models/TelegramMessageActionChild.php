@@ -12,6 +12,8 @@ use Yii;
  * @property int|null $chat_id
  * @property int|null $message_id
  * @property int|null $status
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property TelegramMessageAction $parent
  */
@@ -29,7 +31,8 @@ class TelegramMessageActionChild extends \yii\db\ActiveRecord
         $object->chat_id = $chatId;
         $object->message_id = $messageId;
         $object->status = self::STATUS_WAITING;
-        $object->save();
+        $object->created_at = date('Y-m-d H:i:s');
+        $object->updated_at = date('Y-m-d H:i:s');
 
         return $object;
     }

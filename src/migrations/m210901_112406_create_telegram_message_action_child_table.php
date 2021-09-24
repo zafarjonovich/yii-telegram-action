@@ -21,6 +21,8 @@ class m210901_112406_create_telegram_message_action_child_table extends Migratio
             'chat_id' => $this->integer(20),
             'message_id' => $this->integer(25),
             'status' => $this->smallInteger(),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime()
         ]);
 
         // creates index for column `parent_id`
